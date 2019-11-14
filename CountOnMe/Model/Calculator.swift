@@ -38,7 +38,7 @@ class Calculator {
         return operationsTotal
     }
 
-    func forTrailingZero(temp: Double) -> String {
+    private func forTrailingZero(temp: Double) -> String {
         let trailingZero = String(format: "%g", temp)
         return trailingZero
     }
