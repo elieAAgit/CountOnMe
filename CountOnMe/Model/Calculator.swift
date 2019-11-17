@@ -15,23 +15,37 @@ class Calculator {
 
         // Iterate over operations while an operand still here
         while operationsToReduce.count > 1 {
-            let left = Double(operationsToReduce[0])!
-            let operand = operationsToReduce[1]
-            let right = Double(operationsToReduce[2])!
+            var left: Double!
+            var right: Double!
+            var operand: String!
+            var operandIndex: Int!
+
+            if let index = operationsToReduce.firstIndex(where: {$0 == "x" || $0 == "/"}) {
+                left = Double(operationsToReduce[index - 1])!
+                operand = operationsToReduce[index]
+                operandIndex = index - 1
+                right = Double(operationsToReduce[index + 1])!
+            } else if let index = operationsToReduce.firstIndex(where: {$0 == "+" || $0 == "-"}) {
+                left = Double(operationsToReduce[index - 1])!
+                operand = operationsToReduce[index]
+                operandIndex = index - 1
+                right = Double(operationsToReduce[index + 1])!
+            }
 
             let result: Double
             switch operand {
-            case "+": result = left + right
-            case "-": result = left - right
             case "x": result = left * right
             case "/": result = left / right
+            case "+": result = left + right
+            case "-": result = left - right
             default: fatalError("Unknown operator !")
             }
 
             let resultTraited = forTrailingZero(temp: result)
 
-            operationsToReduce = Array(operationsToReduce.dropFirst(3))
-            operationsToReduce.insert("\(resultTraited)", at: 0)
+            operationsToReduce.removeSubrange(ClosedRange(uncheckedBounds:
+                (lower: operandIndex, upper: operandIndex + 2)))
+            operationsToReduce.insert("\(resultTraited)", at: operandIndex)
         }
 
         let operationsTotal = operationsToReduce.first!

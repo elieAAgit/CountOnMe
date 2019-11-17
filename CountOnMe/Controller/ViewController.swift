@@ -10,7 +10,6 @@ import UIKit
 
 class ViewController: UIViewController {
     var operations = Operations()
-    var calculator = Calculator()
 
     @IBOutlet weak var textView: UITextView!
     @IBOutlet var numberButtons: [UIButton]!
@@ -25,89 +24,31 @@ class ViewController: UIViewController {
 extension ViewController {
     // View actions
     @IBAction func tappedNumberButton(_ sender: UIButton) {
-        guard let numberText = sender.title(for: .normal) else {
-            return
-        }
+        guard let numberText = sender.title(for: .normal) else { return }
 
-        if operations.expressionHaveResult {
-            reset()
-        }
-
-        addNumbersAndDot(senderText: numberText)
+        operations.addNumbers(numberText: numberText)
     }
 
     @IBAction func tappedDotButton(_ sender: UIButton) {
-        guard let dotText = sender.title(for: .normal) else {
-            return
-        }
-
-        if operations.canAddDot != true {
-            addNumbersAndDot(senderText: dotText)
-        } else {
-            let message = "Vous ne pouvez pas faire cela !"
-
-            alertOperator(message: message)
-        }
+        guard let dotText = sender.title(for: .normal) else { return }
+        
+        operations.addDot(dotText: dotText)
     }
 
     @IBAction func tappedResetButton(_ sender: UIButton) {
-        reset()
+        operations.reset()
     }
 
     @IBAction func tappedOperatorButton(_ sender: UIButton) {
-        operations.addCalcul()
+        guard let senderTitle = sender.currentTitle else { return }
 
-        if operations.canAddOperator {
-            guard let senderTitle = sender.currentTitle else {
-                return
-            }
-
-            textView.text.append(" \(senderTitle) ")
-            operations.arrayCalcul.append("\(senderTitle)")
-        } else {
-            let message = "Un operateur est déja mis !"
-
-            alertOperator(message: message)
-        }
+        operations.addOperator(senderTitle: senderTitle)
     }
 
     @IBAction func tappedEqualButton(_ sender: UIButton) {
-        operations.addCalcul()
-
-        guard operations.canAddOperator else {
-            let message = "Entrez une expression correcte  !"
-
-            return alertOperator(message: message)
-        }
-
-        guard operations.expressionHaveEnoughElement else {
-            if operations.arrayCalcul.isEmpty {
-                return
-            } else {
-                operations.cancelAddCalcul()
-            }
-
-            let message = "Démarrez un nouveau calcul !"
-
-            return alertOperator(message: message)
-        }
-
-        let calcul = operations.arrayCalcul
-        let operationsTotal = calculator.calcul(elements: calcul)
-        print(calcul)
-
-        textView.text.append(" = \(operationsTotal)")
-        operations.arrayCalcul.append("=")
-    }
-
-    private func addNumbersAndDot(senderText: String) {
-        textView.text.append(senderText)
-        operations.numbers.append(senderText)
-    }
-
-    private func reset() {
-        textView.text = ""
-        operations.resetCalcul()
+        guard let equalText = sender.currentTitle else { return }
+        
+        operations.terminateCalcul(sender: equalText)
     }
 
     private func alertOperator(message: String) {

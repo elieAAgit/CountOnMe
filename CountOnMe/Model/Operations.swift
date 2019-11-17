@@ -9,13 +9,14 @@
 import Foundation
 
 class Operations {
-    var numbers = [String]()
-    var arrayCalcul = [String]()
+    var calculator = Calculator()
+    
+    var element: String = ""
 
-    var addNumber: String {
-        return numbers.joined()
+    var arrayCalcul: [String] {
+        return element.split(separator: " ").map { "\($0)" }
     }
-
+    
     var expressionHaveResult: Bool {
         return arrayCalcul.firstIndex(of: "=") != nil
     }
@@ -31,32 +32,84 @@ class Operations {
     }
 
     var canAddDot: Bool {
-        return numbers.firstIndex(of: ".") != nil
+        return arrayCalcul.last!.contains(".")
     }
 
     var canAddOperator: Bool {
         return arrayCalcul.last != "+" && arrayCalcul.last != "-" && arrayCalcul.last != "x"
             && arrayCalcul.last != "/" && arrayCalcul.last != "="
     }
+}
 
-    func addCalcul() {
-        arrayCalcul.append(addNumber)
-        numbers.removeAll()
+extension Operations {
+    func addNumbers(numberText: String) {
+        if expressionHaveResult {
+            reset()
+        } else if arrayCalcul.last == "/" && numberText == "0" {
+            return
+        }
 
-        if arrayCalcul.last!.isEmpty {
-            arrayCalcul.removeLast()
+        addNumbersAndDot(senderText: numberText)
+    }
+
+    func addDot(dotText: String) {
+        if expressionHaveResult {
+            reset()
+        } else if canAddDot != true {
+            addNumbersAndDot(senderText: dotText)
+        } else {
+            
         }
     }
 
-    func cancelAddCalcul() {
-        let cancelCalcul = arrayCalcul.last!
-
-        numbers.append(cancelCalcul)
-        arrayCalcul.removeAll()
+    func addOperator(senderTitle: String) {
+        if expressionHaveResult && senderTitle == "-" {
+            reset()
+            element.append("\(senderTitle)")
+        } else if expressionHaveResult {
+            reset()
+        } else if arrayCalcul.isEmpty && senderTitle != "-" {
+            return
+        } else if arrayCalcul.isEmpty && senderTitle == "-" {
+            element.append("\(senderTitle)")
+        } else if canAddOperator {
+            element.append(" \(senderTitle) ")
+        } else {
+            
+        }
     }
 
-    func resetCalcul() {
-        numbers.removeAll()
-        arrayCalcul.removeAll()
+    func terminateCalcul(sender: String) {
+        if expressionHaveResult {
+            reset()
+        }
+
+        guard canAddOperator else {
+            return
+        }
+
+        guard expressionHaveEnoughElement else {
+            if arrayCalcul.isEmpty {
+                return
+            } else {
+                reset()
+            }
+
+            return
+        }
+
+        let calcul = arrayCalcul
+        let operationsTotal = calculator.calcul(elements: calcul)
+
+        element.append(" = \(operationsTotal)")
+        print(arrayCalcul)
+    }
+
+    private func addNumbersAndDot(senderText: String) {
+        element.append(senderText)
+    }
+
+    func reset() {
+        element.removeAll()
     }
 }
