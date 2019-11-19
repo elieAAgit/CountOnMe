@@ -10,13 +10,21 @@ import Foundation
 
 class Operations {
     var calculator = Calculator()
-    
-    var element: String = ""
+
+    enum Alert {
+        case canNotDivideByZero, canAddDot, canAddOperator, canTerminateCalcul, expressionHaveEnoughElement
+    }
+
+    var element: String = ""{
+        didSet {
+            viewNotification(textView: element)
+        }
+    }
 
     var arrayCalcul: [String] {
         return element.split(separator: " ").map { "\($0)" }
     }
-    
+
     var expressionHaveResult: Bool {
         return arrayCalcul.firstIndex(of: "=") != nil
     }
@@ -32,7 +40,10 @@ class Operations {
     }
 
     var canAddDot: Bool {
-        return arrayCalcul.last!.contains(".")
+        if arrayCalcul.count > 0 {
+            return arrayCalcul.last!.contains(".")
+        }
+        return false
     }
 
     var canAddOperator: Bool {
@@ -46,7 +57,7 @@ extension Operations {
         if expressionHaveResult {
             reset()
         } else if arrayCalcul.last == "/" && numberText == "0" {
-            return
+            return alertNotification(userInfo: .canNotDivideByZero)
         }
 
         addNumbersAndDot(senderText: numberText)
@@ -58,16 +69,17 @@ extension Operations {
         } else if canAddDot != true {
             addNumbersAndDot(senderText: dotText)
         } else {
-            
+            alertNotification(userInfo: .canAddDot)
         }
     }
 
     func addOperator(senderTitle: String) {
-        if expressionHaveResult && senderTitle == "-" {
+        if expressionHaveResult {
             reset()
-            element.append("\(senderTitle)")
-        } else if expressionHaveResult {
-            reset()
+
+            if senderTitle == "-" {
+                element.append("\(senderTitle)")
+            }
         } else if arrayCalcul.isEmpty && senderTitle != "-" {
             return
         } else if arrayCalcul.isEmpty && senderTitle == "-" {
@@ -75,7 +87,7 @@ extension Operations {
         } else if canAddOperator {
             element.append(" \(senderTitle) ")
         } else {
-            
+            alertNotification(userInfo: .canAddOperator)
         }
     }
 
@@ -85,17 +97,15 @@ extension Operations {
         }
 
         guard canAddOperator else {
-            return
+            return alertNotification(userInfo: .canTerminateCalcul)
         }
 
         guard expressionHaveEnoughElement else {
             if arrayCalcul.isEmpty {
                 return
-            } else {
-                reset()
             }
 
-            return
+            return alertNotification(userInfo: .expressionHaveEnoughElement)
         }
 
         let calcul = arrayCalcul
@@ -111,5 +121,15 @@ extension Operations {
 
     func reset() {
         element.removeAll()
+    }
+}
+
+extension Operations {
+    func viewNotification(textView: String) {
+        NotificationCenter.default.post(name: .nameView, object: nil, userInfo: ["TextView": textView])
+    }
+
+    func alertNotification(userInfo: Alert) {
+        NotificationCenter.default.post(name: .nameAlert, object: nil, userInfo: ["alert": userInfo])
     }
 }
