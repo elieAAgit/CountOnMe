@@ -9,12 +9,12 @@
 import UIKit
 
 class ViewController: UIViewController {
-    var operations = Operations()
+    var operations = Validator()
 
     @IBOutlet weak var textView: UITextView!
     @IBOutlet var numberButtons: [UIButton]!
 
-    // View Life cycles
+    /// View Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -26,8 +26,9 @@ class ViewController: UIViewController {
     }
 }
 
+// MARK: - UIButton actions
 extension ViewController {
-    // View actions
+    /// When any number button is tapped
     @IBAction func tappedNumberButton(_ sender: UIButton) {
         guard let numberText = sender.title(for: .normal) else { return }
 
@@ -35,6 +36,7 @@ extension ViewController {
         operations.addNumbers(numberText: numberText)
     }
 
+    /// When the dot button is tapped
     @IBAction func tappedDotButton(_ sender: UIButton) {
         guard let dotText = sender.title(for: .normal) else { return }
 
@@ -42,57 +44,54 @@ extension ViewController {
         operations.addDot(dotText: dotText)
     }
 
+    /// When the clear button is tapped
     @IBAction func tappedResetButton(_ sender: UIButton) {
         sender.animated()
         operations.reset()
     }
 
+    /// When any operator button is tapped
     @IBAction func tappedOperatorButton(_ sender: UIButton) {
         guard let senderTitle = sender.currentTitle else { return }
 
         sender.animated()
-        operations.addOperator(senderTitle: senderTitle)
-    }
-
-    @IBAction func tappedEqualButton(_ sender: UIButton) {
-        guard let equalText = sender.currentTitle else { return }
-
-        sender.animated()
-        operations.terminateCalcul(sender: equalText)
+        operations.addOperator(sender: senderTitle)
     }
 }
 
+// MARK: - Notifications actions
 extension ViewController {
+    /// Display of numbers and operators tapped in textView
     @objc private func actionView(notification: Notification) {
         guard let userInfo = notification.userInfo else { return }
 
         textView.text = userInfo["TextView"] as? String
     }
 
+    /// Display alert when an action is irrelevant
     @objc private func actionAlert(notification: Notification) {
         var message: String!
 
         guard let userInfo = notification.userInfo else { return }
 
-        guard let error = userInfo["alert"] as? Operations.Alert else { return }
+        // Choose the text for each error
+        guard let error = userInfo["alert"] as? Validator.Alert else { return }
             switch error {
+            case .dotIsAlone:
+                message = "Vous devez taper une décimale."
             case .canNotDivideByZero:
                 message = "Vous ne pouvez pas diviser par zero !"
-            case .canAddDot:
+            case .canNotAddDot:
                 message = "Vous ne pouvez pas faire cela !"
-            case .canAddOperator:
+            case .canNotAddOperator:
                 message = "Un operateur est déja mis !"
-            case .canTerminateCalcul:
-                message = "Entrez une expression correcte  !"
-            case .expressionHaveEnoughElement:
+            case .canNotStartNewCalcul:
+                message = "Vous ne pouvez pas commencer un calcul avec cet opérateur."
+            case .expressionHaveNotEnoughElement:
                 message = "Démarrez un nouveau calcul !"
             }
-        alertOperator(message: message)
-    }
 
-    private func alertOperator(message: String) {
-        let alertVC = UIAlertController(title: "", message: message, preferredStyle: .alert)
-        alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        self.present(alertVC, animated: true, completion: nil)
+        // Message error
+        alertOperator(message: message)
     }
 }

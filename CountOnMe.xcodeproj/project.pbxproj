@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D42A39E2387FAB00074DECE /* Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D42A39D2387FAB00074DECE /* Controller.swift */; };
 		0D553EA72384445E004B06ED /* Notification.Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D553EA62384445E004B06ED /* Notification.Name.swift */; };
 		0D553EA923844D45004B06ED /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D553EA823844D45004B06ED /* Button.swift */; };
 		0D57E5C02368BCEC007AB559 /* Calculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D57E5BF2368BCEC007AB559 /* Calculator.swift */; };
-		0D57E5CA2368C317007AB559 /* CountOnMeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D57E5C92368C317007AB559 /* CountOnMeTests.swift */; };
-		0D84146B237D6F4A00ACCC8E /* Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D84146A237D6F4A00ACCC8E /* Operations.swift */; };
+		0DB3ED13238D17C10083AA0A /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB3ED12238D17C10083AA0A /* Validator.swift */; };
+		0DB3ED17238D1A000083AA0A /* CalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB3ED16238D1A000083AA0A /* CalculatorTests.swift */; };
+		0DB3ED19238D1A620083AA0A /* ValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB3ED18238D1A620083AA0A /* ValidatorTests.swift */; };
 		1FA43BD3224E569900F565CB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA43BD2224E569900F565CB /* AppDelegate.swift */; };
 		1FA43BD5224E569900F565CB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA43BD4224E569900F565CB /* ViewController.swift */; };
 		1FA43BD8224E569900F565CB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FA43BD6224E569900F565CB /* Main.storyboard */; };
@@ -30,13 +32,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0D42A39D2387FAB00074DECE /* Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Controller.swift; sourceTree = "<group>"; };
 		0D553EA62384445E004B06ED /* Notification.Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.Name.swift; sourceTree = "<group>"; };
 		0D553EA823844D45004B06ED /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		0D57E5BF2368BCEC007AB559 /* Calculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calculator.swift; sourceTree = "<group>"; };
 		0D57E5C72368C317007AB559 /* CountOnMeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CountOnMeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		0D57E5C92368C317007AB559 /* CountOnMeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountOnMeTests.swift; sourceTree = "<group>"; };
 		0D57E5CB2368C317007AB559 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0D84146A237D6F4A00ACCC8E /* Operations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operations.swift; sourceTree = "<group>"; };
+		0DB3ED12238D17C10083AA0A /* Validator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
+		0DB3ED16238D1A000083AA0A /* CalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorTests.swift; sourceTree = "<group>"; };
+		0DB3ED18238D1A620083AA0A /* ValidatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidatorTests.swift; sourceTree = "<group>"; };
 		1FA43BCF224E569900F565CB /* CountOnMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CountOnMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FA43BD2224E569900F565CB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1FA43BD4224E569900F565CB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -67,8 +71,9 @@
 		0D553EA523844415004B06ED /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				0D553EA62384445E004B06ED /* Notification.Name.swift */,
 				0D553EA823844D45004B06ED /* Button.swift */,
+				0D42A39D2387FAB00074DECE /* Controller.swift */,
+				0D553EA62384445E004B06ED /* Notification.Name.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -77,7 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				0D57E5BF2368BCEC007AB559 /* Calculator.swift */,
-				0D84146A237D6F4A00ACCC8E /* Operations.swift */,
+				0DB3ED12238D17C10083AA0A /* Validator.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -111,7 +116,8 @@
 		0D57E5C82368C317007AB559 /* CountOnMeTests */ = {
 			isa = PBXGroup;
 			children = (
-				0D57E5C92368C317007AB559 /* CountOnMeTests.swift */,
+				0DB3ED16238D1A000083AA0A /* CalculatorTests.swift */,
+				0DB3ED18238D1A620083AA0A /* ValidatorTests.swift */,
 				0D57E5CB2368C317007AB559 /* Info.plist */,
 			);
 			path = CountOnMeTests;
@@ -288,7 +294,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0D57E5CA2368C317007AB559 /* CountOnMeTests.swift in Sources */,
+				0DB3ED19238D1A620083AA0A /* ValidatorTests.swift in Sources */,
+				0DB3ED17238D1A000083AA0A /* CalculatorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,12 +303,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0DB3ED13238D17C10083AA0A /* Validator.swift in Sources */,
 				0D57E5C02368BCEC007AB559 /* Calculator.swift in Sources */,
 				0D553EA923844D45004B06ED /* Button.swift in Sources */,
 				1FA43BD5224E569900F565CB /* ViewController.swift in Sources */,
 				0D553EA72384445E004B06ED /* Notification.Name.swift in Sources */,
 				1FA43BD3224E569900F565CB /* AppDelegate.swift in Sources */,
-				0D84146B237D6F4A00ACCC8E /* Operations.swift in Sources */,
+				0D42A39E2387FAB00074DECE /* Controller.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -498,6 +506,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/CountOnMe/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -506,7 +515,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -517,6 +526,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/CountOnMe/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -525,7 +535,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

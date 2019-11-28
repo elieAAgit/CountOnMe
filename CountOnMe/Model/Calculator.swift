@@ -10,16 +10,17 @@ import Foundation
 
 class Calculator {
     func calcul(elements: [String]) -> String {
-        // Create local copy of operations
+        // Create local copy of operations.
         var operationsToReduce = elements
 
-        // Iterate over operations while an operand still here
+        // Iterate over operations while an operand still here.
         while operationsToReduce.count > 1 {
             var left: Double!
             var right: Double!
             var operand: String!
             var operandIndex: Int!
 
+            // Verify the operators priority.
             if let index = operationsToReduce.firstIndex(where: {$0 == "x" || $0 == "/"}) {
                 left = Double(operationsToReduce[index - 1])!
                 operand = operationsToReduce[index]
@@ -43,6 +44,7 @@ class Calculator {
 
             let resultTraited = forTrailingZero(temp: result)
 
+            // Insert the result of the calcul in place of numbers and operator of the calcul.
             operationsToReduce.removeSubrange(ClosedRange(uncheckedBounds:
                 (lower: operandIndex, upper: operandIndex + 2)))
             operationsToReduce.insert("\(resultTraited)", at: operandIndex)
@@ -52,6 +54,7 @@ class Calculator {
         return operationsTotal
     }
 
+    // Remove unused zero and dot.
     private func forTrailingZero(temp: Double) -> String {
         let trailingZero = String(format: "%g", temp)
         return trailingZero
