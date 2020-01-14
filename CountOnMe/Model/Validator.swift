@@ -11,143 +11,157 @@ import Foundation
 class Validator {
     private var calculator = Calculator()
 
-    /// Enumerations of cases of alert.
-    enum Alert {
-        case dotIsAlone, canNotDivideByZero, canNotAddDot, canNotAddOperator,
-        canNotStartNewCalcul, expressionHaveNotEnoughElement
-    }
-
-    /// Return element tapped by user, after validate verifications.
+    /// Return element tapped by user, after validate verifications
     var element: String = ""{
         didSet {
-            viewNotification(textView: element)
+            Notification.viewNotification(textView: element)
         }
     }
 
-    /// Array of element for calculate operation.
+    /// Array of element for calculate operation
     var elements: [String] {
         return element.split(separator: " ").map { "\($0)" }
     }
 
-    // MARK: - Properties use for verifications
-    private var expressionHasResult: Bool {
+    // MARK: Properties
+    private var expressionHaveResult: Bool {
         return elements.firstIndex(of: "=") != nil
     }
 
+    /// Check that the expression has at least 3 elements
     private var expressionHaveEnoughElement: Bool {
         return elements.count >= 3
     }
 
+    /// Check that there is no point already
     private var canNotAddDot: Bool {
         return elements.count > 0 && elements.last!.contains(".")
     }
 
-    private var dotIsAlone: Bool {
+    ///Check that the expression has at least one more element
+    private var dotIsNotAlone: Bool {
         return elements.last != "."
     }
 
+    /// Check that the last element of the expression is not an operator
     private var canAddOperator: Bool {
         return elements.last != "+" && elements.last != "-" && elements.last != "x"
             && elements.last != "/" && elements.last != "="
     }
 
-    private var canNotDivideByZero: Bool {
-        return elements.count >= 2 && elements[elements.count - 2] == "/"
-            && (elements.last == "0" || elements.last == "0.")
+    /// Check that the operation not contains a division by zero
+    private var canDivideByZero: Bool {
+        // check that the operation is a division and elements have enough element
+        if elements.count > 2 && elements[elements.count - 2] == "/" {
+            // Numbers are required for a divsion
+            let requiredList = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+            // Create an array with last element on elements array
+            var controlForDivide = [String()]
+            // Force-unwrap using '!' : in this 'if' we KNOW elements.count is superior to 2
+            let last = elements.last!
+
+            for element in last {
+                controlForDivide.append(String(element))
+            }
+
+            // If an element of requiredList is present in controlForDivide, then division is allowed
+            if requiredList.contains(where: controlForDivide.contains) {
+                return true
+            } else {
+                return false
+            }
+        }
+
+        return true
     }
 }
 
-// MARK: - Functions for verifications
+// MARK: Functions
 extension Validator {
-    /// Add number in var element and array elements.
+    /// Add number in property element and array elements
     func addNumbers(numberText: String) {
-        verifyResult()
+        verifyHaveResult()
 
         addNumbersAndDot(senderText: numberText)
     }
 
-    /// Add dot in var element and array elements.
+    /// Add dot in property element and array elements
     func addDot(dotText: String) {
-        verifyResult()
+        verifyHaveResult()
 
-        guard !canNotAddDot else {
-            return alertNotification(userInfo: .canNotAddDot)
+        guard canNotAddDot != true else {
+            return Notification.alertNotification(userInfo: .canNotAddDot)
         }
 
         addNumbersAndDot(senderText: dotText)
     }
 
-    /// Add operator in var element and array elements.
-    func addOperator(sender: String) {
-        verifyResult()
-
-        guard dotIsAlone else {
-            return alertNotification(userInfo: .dotIsAlone)
-        }
-
-        guard !canNotDivideByZero else {
-            return alertNotification(userInfo: .canNotDivideByZero)
-        }
-
-        guard canAddOperator else {
-            return alertNotification(userInfo: .canNotAddOperator)
-        }
-
-        // Add operator uses for the calcul.
-        if sender != "=" {
-            if elements.isEmpty {
-                guard sender == "-" else {
-                    return alertNotification(userInfo: .canNotStartNewCalcul)
-                }
-
-                /*
-                Add "-" whith no space when a new calcul start, for add substraction operator and
-                 following number in the same element of the array elements.
-                */
-                element.append(" \(sender)")
-            } else {
-                element.append(" \(sender) ")
-            }
-        // Add equal operator and finish the calcul.
+    /// Correct last element
+    func correction() {
+        if expressionHaveResult {
+            resetAll()
         } else {
-            guard expressionHaveEnoughElement else {
-                return alertNotification(userInfo: .expressionHaveNotEnoughElement)
-            }
-
-            // Terminate calcul
-            let operationsTotal = calculator.calcul(elements: elements)
-
-            element.append(" = \(operationsTotal)")
+            element.removeLast()
         }
     }
 
-    /// Verify if a possibly previous expression exist and if she has a result.
-    private func verifyResult() {
-        if expressionHasResult {
-            reset()
-        }
-    }
-
-    /// Suppress all element to start new calcul.
-    func reset() {
+    /// Suppress all element to start new calcul
+    func resetAll() {
         element.removeAll()
     }
 
-    /// Add number and dot in element and elements array for the calcul.
+    /// If previous calcul have result then clear all before start new calcul
+    private func verifyHaveResult() {
+        if expressionHaveResult {
+            resetAll()
+        }
+    }
+
+    /// Append property element and array elements with user choice
     private func addNumbersAndDot(senderText: String) {
         element.append(senderText)
     }
-}
 
-// MARK: - Notifications
-extension Validator {
-    /// If an element has a resolution, a notification is send to the controller to display this element in textView.
-    func viewNotification(textView: String) {
-        NotificationCenter.default.post(name: .nameView, object: nil, userInfo: ["TextView": textView])
-    }
+    /// Add opereator in var element and array elements
+    func addOperator(sender: String) {
+        verifyHaveResult()
 
-    /// Send notification to controller for displayan error message.
-    func alertNotification(userInfo: Alert) {
-        NotificationCenter.default.post(name: .nameAlert, object: nil, userInfo: ["alert": userInfo])
+        guard dotIsNotAlone else {
+            return Notification.alertNotification(userInfo: .dotIsAlone)
+        }
+
+        guard canDivideByZero else {
+            return Notification.alertNotification(userInfo: .canNotDivideByZero)
+        }
+
+        guard canAddOperator else {
+            return Notification.alertNotification(userInfo: .canNotAddOperator)
+        }
+
+        if sender == "=" {
+            guard expressionHaveEnoughElement else {
+                return Notification.alertNotification(userInfo: .expressionHaveNotEnoughElement)
+            }
+
+            // Do the math
+            let operationsTotal = calculator.calcul(elements: elements)
+
+            // Display calcul result
+            element.append(" = \(operationsTotal)")
+        // If operator is not '='
+        } else {
+            // When a calculation begins and operator is not '-', no addition of operator
+            if elements.isEmpty && sender != "-" {
+                return Notification.alertNotification(userInfo: .canNotStartNewCalcul)
+            }
+
+            // When a calculation begins and operator is '-', add the operator without space at the beginning
+            if elements.isEmpty && sender == "-" {
+                element.append(" \(sender)")
+            // During the calculation, add the operator, with spaces
+            } else {
+                element.append(" \(sender) ")
+            }
+        }
     }
 }

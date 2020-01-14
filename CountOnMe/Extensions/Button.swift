@@ -9,6 +9,7 @@
 import UIKit
 
 extension UIButton {
+    /// Add method to UIButton for animate user action's
     func animated() {
         UIView.animate(withDuration: 0.1, delay: 0, usingSpringWithDamping: 0.9,
                        initialSpringVelocity: 0.5, options: .curveEaseIn, animations: {

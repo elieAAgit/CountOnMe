@@ -14,6 +14,7 @@
 		0DB3ED13238D17C10083AA0A /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB3ED12238D17C10083AA0A /* Validator.swift */; };
 		0DB3ED17238D1A000083AA0A /* CalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB3ED16238D1A000083AA0A /* CalculatorTests.swift */; };
 		0DB3ED19238D1A620083AA0A /* ValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB3ED18238D1A620083AA0A /* ValidatorTests.swift */; };
+		0DE94E2523A3BDC300D7C4A7 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE94E2423A3BDC300D7C4A7 /* Notification.swift */; };
 		1FA43BD3224E569900F565CB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA43BD2224E569900F565CB /* AppDelegate.swift */; };
 		1FA43BD5224E569900F565CB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA43BD4224E569900F565CB /* ViewController.swift */; };
 		1FA43BD8224E569900F565CB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FA43BD6224E569900F565CB /* Main.storyboard */; };
@@ -41,6 +42,7 @@
 		0DB3ED12238D17C10083AA0A /* Validator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
 		0DB3ED16238D1A000083AA0A /* CalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorTests.swift; sourceTree = "<group>"; };
 		0DB3ED18238D1A620083AA0A /* ValidatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidatorTests.swift; sourceTree = "<group>"; };
+		0DE94E2423A3BDC300D7C4A7 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		1FA43BCF224E569900F565CB /* CountOnMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CountOnMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FA43BD2224E569900F565CB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1FA43BD4224E569900F565CB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 				0D553EA823844D45004B06ED /* Button.swift */,
 				0D42A39D2387FAB00074DECE /* Controller.swift */,
 				0D553EA62384445E004B06ED /* Notification.Name.swift */,
+				0DE94E2423A3BDC300D7C4A7 /* Notification.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -183,7 +186,6 @@
 				1FA43BCB224E569900F565CB /* Sources */,
 				1FA43BCC224E569900F565CB /* Frameworks */,
 				1FA43BCD224E569900F565CB /* Resources */,
-				0D57E5B823687B91007AB559 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -253,23 +255,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0D57E5B823687B91007AB559 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\n  else\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n  fi\n";
-		};
 		0D9498432374BA33003EF0C4 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -307,6 +292,7 @@
 				0D57E5C02368BCEC007AB559 /* Calculator.swift in Sources */,
 				0D553EA923844D45004B06ED /* Button.swift in Sources */,
 				1FA43BD5224E569900F565CB /* ViewController.swift in Sources */,
+				0DE94E2523A3BDC300D7C4A7 /* Notification.swift in Sources */,
 				0D553EA72384445E004B06ED /* Notification.Name.swift in Sources */,
 				1FA43BD3224E569900F565CB /* AppDelegate.swift in Sources */,
 				0D42A39E2387FAB00074DECE /* Controller.swift in Sources */,

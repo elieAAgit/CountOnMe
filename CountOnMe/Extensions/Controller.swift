@@ -9,6 +9,7 @@
 import UIKit
 
 extension UIViewController {
+    /// Addition of an alert usable in all ViewController
     func alertOperator(message: String) {
         let alertVC = UIAlertController(title: "", message: message, preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))

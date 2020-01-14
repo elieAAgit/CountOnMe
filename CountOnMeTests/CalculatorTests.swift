@@ -10,7 +10,7 @@ import XCTest
 @testable import CountOnMe
 
 class CalculatorTestCase: XCTestCase {
-    /// Property use for tests
+    /// Property uses for tests
     var calculator: Calculator!
 
     override func setUp() {
@@ -18,7 +18,7 @@ class CalculatorTestCase: XCTestCase {
         calculator = Calculator()
     }
 
-    // Using XCTAssertEqual for each because in case of error, message error is more explicit.
+    // Using XCTAssertEqual for each because in case of error, error message is more explicit.
     func testGivenTotalIsNul_WhenMakingAnAdditionOnePlusOne_ThenTheTotalIsEqualToTwo() {
         let elements = ["1", "+", "1"]
         let calculTest = calculator.calcul(elements: elements)
@@ -45,5 +45,26 @@ class CalculatorTestCase: XCTestCase {
         let calculTest = calculator.calcul(elements: elements)
 
         XCTAssertEqual(calculTest, "2")
+    }
+
+    func testGivenTotalIsTwo_WhenAddingUnkhownOperator_ThenTheTotalIsEqualToZero() {
+        let elements = ["2", "?", "1"]
+        let calculTest = calculator.calcul(elements: elements)
+
+        XCTAssertEqual(calculTest, "0")
+    }
+
+    func testGivenWithLeftDoubleError_Whencalculating_ThenNoResults() {
+        let elements = ["t", "+", "1"]
+        let calculTest = calculator.calcul(elements: elements)
+
+        XCTAssertEqual(calculTest, "")
+    }
+
+    func testGivenWithRightDoubleError_Whencalculating_ThenNoResults() {
+        let elements = ["1", "+", "w"]
+        let calculTest = calculator.calcul(elements: elements)
+
+        XCTAssertEqual(calculTest, "")
     }
 }

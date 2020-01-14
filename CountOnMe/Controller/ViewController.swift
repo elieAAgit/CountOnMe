@@ -44,10 +44,16 @@ extension ViewController {
         operations.addDot(dotText: dotText)
     }
 
-    /// When the clear button is tapped
+    /// When the correction button is tapped
     @IBAction func tappedResetButton(_ sender: UIButton) {
         sender.animated()
-        operations.reset()
+        operations.correction()
+    }
+
+    /// When the clear button is tapped
+    @IBAction func tappedAllResetButton(_ sender: UIButton) {
+        sender.animated()
+        operations.resetAll()
     }
 
     /// When any operator button is tapped
@@ -70,25 +76,29 @@ extension ViewController {
 
     /// Display alert when an action is irrelevant
     @objc private func actionAlert(notification: Notification) {
-        var message: String!
+        var message = "Erreur."
 
         guard let userInfo = notification.userInfo else { return }
 
         // Choose the text for each error
-        guard let error = userInfo["alert"] as? Validator.Alert else { return }
+        guard let error = userInfo["alert"] as? Notification.Alert else { return }
             switch error {
             case .dotIsAlone:
                 message = "Vous devez taper une décimale."
             case .canNotDivideByZero:
-                message = "Vous ne pouvez pas diviser par zero !"
+                message = "Vous ne pouvez pas diviser par zero."
             case .canNotAddDot:
-                message = "Vous ne pouvez pas faire cela !"
+                message = "Vous ne pouvez pas faire cela."
             case .canNotAddOperator:
-                message = "Un operateur est déja mis !"
+                message = "Un opérateur est déja mis."
             case .canNotStartNewCalcul:
                 message = "Vous ne pouvez pas commencer un calcul avec cet opérateur."
             case .expressionHaveNotEnoughElement:
-                message = "Démarrez un nouveau calcul !"
+                message = "Démarrez un nouveau calcul."
+            case .syntaxError:
+                message = "Erreur de synthaxe. Veuillez commencer un nouveau calcul."
+            case .unknownOperator:
+                message = "Opérateur inconnu."
             }
 
         // Message error

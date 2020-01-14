@@ -9,52 +9,69 @@
 import Foundation
 
 class Calculator {
+    /// Calculate the result of the operation
     func calcul(elements: [String]) -> String {
-        // Create local copy of operations.
+        // Create local copy of operations
         var operationsToReduce = elements
 
-        // Iterate over operations while an operand still here.
+        // Iterate over operations while an operand still here
         while operationsToReduce.count > 1 {
-            var left: Double!
-            var right: Double!
-            var operand: String!
-            var operandIndex: Int!
+            var operandIndex: Int
 
-            // Verify the operators priority.
+            // Operations priority: first multiply or divide
             if let index = operationsToReduce.firstIndex(where: {$0 == "x" || $0 == "/"}) {
-                left = Double(operationsToReduce[index - 1])!
-                operand = operationsToReduce[index]
-                operandIndex = index - 1
-                right = Double(operationsToReduce[index + 1])!
+                operandIndex = index
+            // After: add or subtract
             } else if let index = operationsToReduce.firstIndex(where: {$0 == "+" || $0 == "-"}) {
-                left = Double(operationsToReduce[index - 1])!
-                operand = operationsToReduce[index]
-                operandIndex = index - 1
-                right = Double(operationsToReduce[index + 1])!
+                operandIndex = index
+            /*
+              If unknown operator, set a default value to operand index
+              Default value is 1 because the loop only starts with count > 1
+            */
+            } else {
+                operandIndex = 1
             }
 
+            // Transform String operation to reduce in Double for the calcul
+            guard let left = Double(operationsToReduce[operandIndex - 1]) else {
+                Notification.alertNotification(userInfo: .syntaxError)
+                return ""
+            }
+
+            guard let right = Double(operationsToReduce[operandIndex + 1]) else {
+                Notification.alertNotification(userInfo: .syntaxError)
+                return ""
+            }
+
+            // Recovery of the calculation operator
+            let calculationOperator = operationsToReduce[operandIndex]
+
+            // Do the math
             let result: Double
-            switch operand {
+            switch calculationOperator {
             case "x": result = left * right
             case "/": result = left / right
             case "+": result = left + right
             case "-": result = left - right
-            default: fatalError("Unknown operator !")
+            default: result = 0
+                Notification.alertNotification(userInfo: .unknownOperator)
             }
 
+            // Remove the decimal point and the trailing zero
             let resultTraited = forTrailingZero(temp: result)
 
-            // Insert the result of the calcul in place of numbers and operator of the calcul.
+            // Replace the left number by the new result and remove the operator and the right number
             operationsToReduce.removeSubrange(ClosedRange(uncheckedBounds:
-                (lower: operandIndex, upper: operandIndex + 2)))
-            operationsToReduce.insert("\(resultTraited)", at: operandIndex)
+                (lower: operandIndex - 1, upper: operandIndex + 1)))
+            operationsToReduce.insert("\(resultTraited)", at: operandIndex - 1)
         }
 
+        // Return the result of the calcul
         let operationsTotal = operationsToReduce.first!
         return operationsTotal
     }
 
-    // Remove unused zero and dot.
+    /// Remove the decimal point and the trailing zero
     private func forTrailingZero(temp: Double) -> String {
         let trailingZero = String(format: "%g", temp)
         return trailingZero

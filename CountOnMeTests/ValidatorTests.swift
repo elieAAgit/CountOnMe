@@ -10,7 +10,7 @@ import XCTest
 @testable import CountOnMe
 
 class ValidatorTests: XCTestCase {
-    /// Property use for tests
+    /// Property uses for tests
     var validation: Validator!
 
     override func setUp() {
@@ -51,6 +51,24 @@ class ValidatorTests: XCTestCase {
         XCTAssertFalse(validation.elements == [".", "."])
     }
 
+    // MARK: - Reset test
+
+    func testGivenCorrectionUserAction_whenCorrectionIsTapped_thenLastElementIsSuppress() {
+        validation.element = "3 + 21"
+
+        validation.correction()
+
+        XCTAssertEqual(validation.elements.last, "2")
+    }
+
+    func testGivenCorrectionUserAction_whenCalculHasResult_thenAllElementsAreSuppress() {
+        validation.element = "3 + 21 = 24"
+
+        validation.correction()
+
+        XCTAssertEqual(validation.elements, [])
+    }
+
     // MARK: - Operators none equal tests
     func testGivenDotHasTapped_whenDotIsAlone_thenOperatorIsNotAdded() {
         validation.element = "."
@@ -69,7 +87,7 @@ class ValidatorTests: XCTestCase {
     }
 
     func testGivenLastElementIsAnOperator_whenAddingOperator_thenOperatorIsNotAdding() {
-        validation.element = "+"
+        validation.element = "1 +"
 
         validation.addOperator(sender: "/")
 
@@ -131,18 +149,18 @@ class ValidatorTests: XCTestCase {
 
     // MARK: - Division test
     func testGivenHasNumber_whenTryedToDivideByZero_thenCanNotAddAnotherOperator() {
-        validation.element = "2 / 0"
+        validation.element = "2 / 0.0"
 
         validation.addOperator(sender: "+")
 
-        XCTAssertEqual(validation.elements.last, "0")
+        XCTAssertEqual(validation.elements.last, "0.0")
     }
 
-    func testGivenHasNumber_whenTryedToDivideByZeroPlusDecimal_thenCanNotAddAnotherOperator() {
-        validation.element = "2 / 0."
+    func testGivenHasNumber_whenTryedToDivideByPositiveNumber_thenCanAddAnotherOperator() {
+        validation.element = "2 / 0.0001"
 
         validation.addOperator(sender: "+")
 
-        XCTAssertEqual(validation.elements.last, "0.")
+        XCTAssertEqual(validation.elements.last, "+")
     }
 }
