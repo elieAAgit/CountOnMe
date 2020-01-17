@@ -12,7 +12,6 @@ class ViewController: UIViewController {
     var operations = Validator()
 
     @IBOutlet weak var textView: UITextView!
-    @IBOutlet var numberButtons: [UIButton]!
 
     /// View Life cycles
     override func viewDidLoad() {
